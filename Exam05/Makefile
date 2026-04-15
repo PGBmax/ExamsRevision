@@ -1,15 +1,19 @@
 NAME = GameOfLife
+NAME_BNS = DynamicGameOfLife
 
 CPP_FLAGS = -Wall -Werror -Wextra -g3
 CC = cc
 
 SRC_DIR		=	./
 SRC_NAME	=	GameOfLife.c
+BNS_NAME 	=	DynamicGameOfLife.c
 
 OBJ_DIR = obj/
-OBJ_NAME = $(SRC_NAME:.c=.o)
-DEP_NAME = $(SRC_NAME:.c=.d)
-OBJ = $(patsubst %, $(OBJ_DIR)%, $(OBJ_NAME))
+OBJ_NAME_1 = $(SRC_NAME:.c=.o)
+OBJ_NAME_2 = $(BNS_NAME:.c=.o)
+OBJ = $(OBJ_1) $(OBJ_2)
+OBJ_1 = $(patsubst %, $(OBJ_DIR)%, $(OBJ_NAME_1))
+OBJ_2 = $(patsubst %, $(OBJ_DIR)%, $(OBJ_NAME_2))
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 		@mkdir -p $(dir $@)
 		@$(CC) $(CPP_FLAGS) $< -c -o $@
@@ -20,8 +24,10 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 		@echo "\033[1;36m Compiled" $<
 
 $(NAME): $(OBJ)
-		@c++ $(CPP_FLAGS) -o $(NAME) $(OBJ)
+		@c++ $(CPP_FLAGS) -o $(NAME) $(OBJ_1)
+		@c++ $(CPP_FLAGS) -o $(NAME_BNS) $(OBJ_2)
 		@echo "\033[1;32m Executable" $(NAME) "created"
+		@echo "\033[1;32m Executable" $(NAME_BNS) "created"
 
 clean:
 		@rm -rf $(OBJ_DIR)
@@ -29,8 +35,10 @@ clean:
 
 fclean: clean
 		@rm -f $(NAME)
+		@rm -f $(NAME_BNS)
 		@echo "\033[1;31m Deleted $(NAME)"
+		@echo "\033[1;31m Deleted $(NAME_BNS)"
 
-all: $(NAME)
+all: $(NAME) $(NAME_BNS)
 
 re: fclean all
