@@ -6,7 +6,7 @@
 /*   By: pboucher <pboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 00:36:23 by pboucher          #+#    #+#             */
-/*   Updated: 2026/04/15 00:54:51 by pboucher         ###   ########.fr       */
+/*   Updated: 2026/04/25 15:26:23 by pboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int count_live_neighbors(char **grid, int h, int w, int y, int x)
+int count_neighbors(char **grid, int h, int w, int y, int x)
 {
 	int count = 0;
 	for (int i = -1; i <= 1; i++)
@@ -24,9 +24,9 @@ int count_live_neighbors(char **grid, int h, int w, int y, int x)
 			if (i == 0 && j == 0)
 				continue;
 			int ny = y + i, nx = x + j;
-			if (ny < 0 && ny > h && nx < 0 && nx > w)
+			if (ny < 0 || ny >= h || nx < 0 || nx >= w)
 				continue;
-			if (grid[ny][nx] == 'O')
+			if (grid[ny][nx] == 'O' || grid[ny][nx] == 'o')
 				count++;
 		}
 	}
@@ -77,10 +77,10 @@ int main(int ac, char **av)
 		{
 			for (int j = 0; j < w; j++)
 			{
-				int live_neighbors = count_live_neighbors(grid, h, w, i, j);
-				if (grid[i][j] == 'O' && (live_neighbors == 2 || live_neighbors == 3))
+				int num = count_neighbors(grid, h, w, i, j);
+				if (grid[i][j] == 'O' && (num == 2 || num == 3))
 					temp[i][j] = 'O';
-				else if (grid[i][j] == ' ' && live_neighbors == 3)
+				else if (grid[i][j] == ' ' && num == 3)
 					temp[i][j] = 'O';
 				else
 					temp[i][j] = ' ';

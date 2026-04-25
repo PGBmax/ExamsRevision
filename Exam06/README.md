@@ -11,7 +11,6 @@ Serveur de chat TCP minimaliste en C — sujet d'examen de l'école 42.
 | Fichier              | Description                                          |
 |----------------------|------------------------------------------------------|
 | `mini_serv.c`        | Version opérationnelle complète                      |
-| `mini_serv_clean.c`  | Version annotée, facile à relire et recopier en exam |
 | `main.c`             | Squelette fourni par le sujet (fonctions utilitaires)|
 | `Subject.txt`        | Énoncé officiel de l'examen                          |
 
@@ -34,10 +33,10 @@ Tester avec `nc` :
 ./mini_serv 8080
 
 # Terminal 2 — client 0
-nc 127.0.0.1 8080
+nc -C localhost 8080
 
 # Terminal 3 — client 1
-nc 127.0.0.1 8080
+nc -C localhost 8080
 ```
 
 ## Comportement

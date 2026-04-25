@@ -11,9 +11,6 @@ char	*msgs[65536];
 fd_set	rfds, wfds, afds;
 char	buf_read[1001], buf_write[42];
 
-
-// START COPY-PASTE FROM GIVEN MAIN
-
 int extract_message(char **buf, char **msg)
 {
 	char	*newbuf;
@@ -60,9 +57,6 @@ char *str_join(char *buf, char *add)
 	strcat(newbuf, add);
 	return (newbuf);
 }
-
-// END COPY-PASTE
-
 
 void	fatal_error()
 {
@@ -131,22 +125,17 @@ int		main(int ac, char **av)
 	FD_ZERO(&afds);
 	int sockfd = create_socket();
 
-	// START COPY-PASTE FROM MAIN
-
 	struct sockaddr_in servaddr;
 	bzero(&servaddr, sizeof(servaddr));
 
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_addr.s_addr = htonl(2130706433);
-	servaddr.sin_port = htons(atoi(av[1])); // replace 8080
+	servaddr.sin_port = htons(atoi(av[1]));
 
 	if (bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr)))
 		fatal_error();
-	if (listen(sockfd, SOMAXCONN)) // the main uses 10, SOMAXCONN is 180 on my machine
+	if (listen(sockfd, SOMAXCONN))
 		fatal_error();
-
-	// END COPY-PASTE
-
 	while (1)
 	{
 		rfds = wfds = afds;
